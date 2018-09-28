@@ -27,9 +27,13 @@ router.use(awsServerlessExpressMiddleware.eventContext())
 app.set('views', path.join(__dirname, 'views'))
 
 router.get('/', (req, res) => {
-  res.render('index', {
-    apiUrl: req.apiGateway ? `https://${req.apiGateway.event.headers.Host}/${req.apiGateway.event.requestContext.stage}` : 'http://localhost:3000'
+  res.render('myWaypoints', {
+    apiUrl: req.apiGateway ? `https://syxoodu0ih.execute-api.us-west-2.amazonaws.com/prod` : 'http://localhost:3000'
   })
+})
+
+router.post('/getmap', (req,res) => {
+  res.send('POST made!');
 })
 
 router.get('/sam', (req, res) => {
