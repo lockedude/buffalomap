@@ -1,3 +1,17 @@
+head
+  title Includes Example
+  style.
+    html,
+    body {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    }
+h1 Welcome to the Open Data Buffalo Mapping Tool!
 form(method='post' action='/prod/getmap')
-  input(type='text' name='myfield' value='')
+  p
+    | Start: 
+    input(type='text', name='start', value='')
+    | Destination: 
+    input(type='text', name='destination', value='')
   input(type='submit' value='Submit form')

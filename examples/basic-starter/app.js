@@ -33,8 +33,9 @@ router.get('/', (req, res) => {
 })
 
 router.post('/getmap', (req,res) => {
-  res.send('POST made!');
+  res.send(200, req.body);
 })
+
 
 router.get('/sam', (req, res) => {
   res.sendFile(`${__dirname}/sam-logo.png`)
