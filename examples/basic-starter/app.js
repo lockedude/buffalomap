@@ -7,6 +7,13 @@ const compression = require('compression')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const app = express()
 const router = express.Router()
+const favicon = require('serve-favicon')
+const querystring = require('querystring')
+const googleMapsClient = require('@google/maps').createClient({
+  key: 'AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk',
+  Promise: Promise
+});
+
 
 app.set('view engine', 'pug')
 
@@ -25,6 +32,9 @@ router.use(awsServerlessExpressMiddleware.eventContext())
 
 // NOTE: tests can't find the views directory without this
 app.set('views', path.join(__dirname, 'views'))
+// For the favicon
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+
 
 router.get('/', (req, res) => {
   res.render('myWaypoints', {
@@ -33,65 +43,20 @@ router.get('/', (req, res) => {
 })
 
 router.post('/getmap', (req,res) => {
-  res.send(200, req.body);
-})
-
-
-router.get('/sam', (req, res) => {
-  res.sendFile(`${__dirname}/sam-logo.png`)
-})
-
-router.get('/users', (req, res) => {
-  res.json(users)
-})
-
-router.get('/users/:userId', (req, res) => {
-  const user = getUser(req.params.userId)
-
-  if (!user) return res.status(404).json({})
-
-  return res.json(user)
-})
-
-router.post('/users', (req, res) => {
-  const user = {
-    id: ++userIdCounter,
-    name: req.body.name
-  }
-  users.push(user)
-  res.status(201).json(user)
-})
-
-router.put('/users/:userId', (req, res) => {
-  const user = getUser(req.params.userId)
-
-  if (!user) return res.status(404).json({})
-
-  user.name = req.body.name
-  res.json(user)
-})
-
-router.delete('/users/:userId', (req, res) => {
-  const userIndex = getUserIndex(req.params.userId)
-
-  if (userIndex === -1) return res.status(404).json({})
-
-  users.splice(userIndex, 1)
-  res.json(users)
-})
-
-const getUser = (userId) => users.find(u => u.id === parseInt(userId))
-const getUserIndex = (userId) => users.findIndex(u => u.id === parseInt(userId))
-
-// Ephemeral in-memory data store
-const users = [{
-  id: 1,
-  name: 'Joe'
-}, {
-  id: 2,
-  name: 'Jane'
-}]
-let userIdCounter = users.length
+  googleMapsClient.directions({origin: req.body.start, destination: req.body.destination})
+  .asPromise()
+  .then((response) => {
+    var startenc = querystring.stringify({origin: req.body.start});
+    var destenc = querystring.stringify({destination: req.body.destination});
+    var url = "https://www.google.com/maps/embed/v1/directions?" + startenc + "&" + destenc + "&key=AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk";
+    res.render('map', {
+      mapurl: url, origin : startenc, destination: destenc
+    })   
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
 
 // The aws-serverless-express library creates a server and listens on a Unix
 // Domain Socket for you, so you can remove the usual call to app.listen.

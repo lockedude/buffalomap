@@ -1,0 +1,107 @@
+body {
+   background-image: url("images/buffalo.jpg") repeat 0 0;
+   }
+.form-container {
+   border: 1px solid #000000;
+   background: #ffffff;
+   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ffffff));
+   background: -webkit-linear-gradient(top, #ffffff, #ffffff);
+   background: -moz-linear-gradient(top, #ffffff, #ffffff);
+   background: -ms-linear-gradient(top, #ffffff, #ffffff);
+   background: -o-linear-gradient(top, #ffffff, #ffffff);
+   background-image: -ms-linear-gradient(top, #ffffff 0%, #ffffff 100%);
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(000,000,000,0.9) 0 1px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+   -moz-box-shadow: rgba(000,000,000,0.9) 0 1px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+   box-shadow: rgba(000,000,000,0.9) 0 1px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+   font-family: 'Helvetica Neue',Helvetica,sans-serif;
+   text-decoration: none;
+   vertical-align: middle;
+   min-width:300px;
+   padding:20px;
+   width:300px;
+   margin: 0 auto;
+   }
+.form-field {
+   border: 1px solid #000000;
+   background: #ffffff;
+   -webkit-border-radius: 4px;
+   -moz-border-radius: 4px;
+   border-radius: 4px;
+   color: #000000;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+   padding:8px;
+   margin-bottom:20px;
+   width:280px;
+   }
+.form-field:focus {
+   background: #fff;
+   color: #000000;
+   }
+.form-container h2 {
+   text-shadow: #ffffff 0 1px 0;
+   font-size:18px;
+   margin: 0 0 10px 0;
+   font-weight:bold;
+   text-align:center;
+    }
+.form-title {
+   margin-bottom:10px;
+   color: #000000;
+   text-shadow: #ffffff 0 1px 0;
+   }
+.submit-container {
+   margin:8px 0;
+   text-align:right;
+   }
+.submit-button {
+   border: 1px solid #3e18d9;
+   background: #364ca3;
+   background: -webkit-gradient(linear, left top, left bottom, from(#2c2cb8), to(#364ca3));
+   background: -webkit-linear-gradient(top, #2c2cb8, #364ca3);
+   background: -moz-linear-gradient(top, #2c2cb8, #364ca3);
+   background: -ms-linear-gradient(top, #2c2cb8, #364ca3);
+   background: -o-linear-gradient(top, #2c2cb8, #364ca3);
+   background-image: -ms-linear-gradient(top, #2c2cb8 0%, #364ca3 100%);
+   -webkit-border-radius: 4px;
+   -moz-border-radius: 4px;
+   border-radius: 4px;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   text-shadow: #000000 0 1px 0;
+   color: #ffffff;
+   font-family: helvetica, serif;
+   padding: 8.5px 18px;
+   font-size: 14px;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.submit-button:hover {
+   border: 1px solid #1d1dc2;
+   text-shadow: #000000 0 1px 0;
+   background: #1a208a;
+   background: -webkit-gradient(linear, left top, left bottom, from(#252585), to(#1a208a));
+   background: -webkit-linear-gradient(top, #252585, #1a208a);
+   background: -moz-linear-gradient(top, #252585, #1a208a);
+   background: -ms-linear-gradient(top, #252585, #1a208a);
+   background: -o-linear-gradient(top, #252585, #1a208a);
+   background-image: -ms-linear-gradient(top, #252585 0%, #1a208a 100%);
+   color: #fff;
+   }
+.submit-button:active {
+   text-shadow: #000000 0 1px 0;
+   border: 1px solid #252cc2;
+   background: #1922cf;
+   background: -webkit-gradient(linear, left top, left bottom, from(#1e40c7), to(#1a208a));
+   background: -webkit-linear-gradient(top, #1e40c7, #1922cf);
+   background: -moz-linear-gradient(top, #1e40c7, #1922cf);
+   background: -ms-linear-gradient(top, #1e40c7, #1922cf);
+   background: -o-linear-gradient(top, #1e40c7, #1922cf);
+   background-image: -ms-linear-gradient(top, #1e40c7 0%, #1922cf 100%);
+   color: #fff;
+   }
