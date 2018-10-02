@@ -1,5 +1,7 @@
 body {
-   background-image: url("images/buffalo.jpg") repeat 0 0;
+   background-image: url("https://www.buffalo.edu/content/dam/www/news/photos/2014/10/downtown-buffalo.jpg");
+   background-size:     cover;
+   background-repeat:   no-repeat;
    }
 .form-container {
    border: 1px solid #000000;

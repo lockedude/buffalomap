@@ -49,20 +49,18 @@ router.post('/getmap', (req,res) => {
     var startenc = querystring.stringify({origin: req.body.start});
     var destenc = querystring.stringify({destination: req.body.destination});
     var url = "https://www.google.com/maps/embed/v1/directions?" + startenc + "&" + destenc + "&key=AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk";
-    var data = (response.json.routes[0].legs[0]);
+    var data = (response.json.routes[0].legs[0].steps);
     var waypoints = [];
-    for(var i = 0; i < data.length; i++) {
-      waypoints.push(response.json.routes[0].legs[0].steps[i].start_location);
-      waypoints.push(response.json.routes[0].legs[0].steps[i].end_location);
+    for (int i = 0; i < data.length; i++) {
+      waypoints.push(i.start_location);
+      waypoints.push(i.end_location);
     }
-//    res.json(data);
+//    console.log(waypoints);
+    res.json(waypoints);
 //    res.send(JSON.stringify(response, null, 2));
 //    res.render('map', {
 //      mapurl: url
 //    })   
-  })
-  .then((data) => {
-    res.json(data);
   })
   .catch((err) => {
     console.log(err);
