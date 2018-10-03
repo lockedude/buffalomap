@@ -42,7 +42,9 @@ router.get('/', (req, res) => {
   })
 })
 
+
 router.post('/getmap', (req,res) => {
+  var waypoints = {};
   googleMapsClient.directions({origin: req.body.start, destination: req.body.destination})
   .asPromise()
   .then((response) => {
@@ -50,19 +52,18 @@ router.post('/getmap', (req,res) => {
     var destenc = querystring.stringify({destination: req.body.destination});
     var url = "https://www.google.com/maps/embed/v1/directions?" + startenc + "&" + destenc + "&key=AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk";
     var data = (response.json.routes[0].legs[0]);
-    var waypoints = [];
     for(var i = 0; i < data.length; i++) {
-      waypoints.push(response.json.routes[0].legs[0].steps[i].start_location);
-      waypoints.push(response.json.routes[0].legs[0].steps[i].end_location);
+      waypoints[i] = (response.json.routes[0].legs[0].steps[i].start_location);
+      if (i == (data.length - 1)) {
+        res.json(waypoints);
+      }
     }
-//    res.json(data);
+//    res.json(waypoints);
 //    res.send(JSON.stringify(response, null, 2));
 //    res.render('map', {
 //      mapurl: url
-//    })   
-  })
-  .then((data) => {
-    res.json(data);
+//    })
+      return getWaypointFunction({res,waypoints});   
   })
   .catch((err) => {
     console.log(err);
