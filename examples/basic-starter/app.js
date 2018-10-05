@@ -9,6 +9,8 @@ const app = express()
 const router = express.Router()
 const favicon = require('serve-favicon')
 const querystring = require('querystring')
+const polyline = require('@mapbox/polyline');
+const Socrata = require('node-socrata');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk',
   Promise: Promise
@@ -48,22 +50,12 @@ router.post('/getmap', (req,res) => {
   googleMapsClient.directions({origin: req.body.start, destination: req.body.destination})
   .asPromise()
   .then((response) => {
-    var startenc = querystring.stringify({origin: req.body.start});
-    var destenc = querystring.stringify({destination: req.body.destination});
-    var url = "https://www.google.com/maps/embed/v1/directions?" + startenc + "&" + destenc + "&key=AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk";
-    var data = (response.json.routes[0].legs[0]);
-    for(var i = 0; i < data.length; i++) {
-      waypoints[i] = (response.json.routes[0].legs[0].steps[i].start_location);
-      if (i == (data.length - 1)) {
-        res.json(waypoints);
-      }
-    }
-//    res.json(waypoints);
-//    res.send(JSON.stringify(response, null, 2));
-//    res.render('map', {
-//      mapurl: url
-//    })
-      return getWaypointFunction({res,waypoints});   
+    var url = "https://www.google.com/maps/api/js?key=AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk&callback=initMap";
+    var data = response.json.routes[0].overview_polyline.points;
+    var decode = polyline.decode(data);
+    res.render('map', {
+      mapurl: url,  start: req.body.start, end: req.body.destination, waypoints: JSON.stringify(decode)
+    })
   })
   .catch((err) => {
     console.log(err);
