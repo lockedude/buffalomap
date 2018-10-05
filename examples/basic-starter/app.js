@@ -11,6 +11,7 @@ const favicon = require('serve-favicon')
 const querystring = require('querystring')
 const polyline = require('@mapbox/polyline');
 const Socrata = require('node-socrata');
+const AWS = require("aws-sdk");
 const googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk',
   Promise: Promise

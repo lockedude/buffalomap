@@ -10,8 +10,8 @@ html
       margin: 0;
       padding: 0;
       }
-      script(src='/scripts/jquery.js')
 #map
+script(src="https://code.jquery.com/jquery-3.1.1.min.js")
 script.
   function initMap() {
     var directionsService = new google.maps.DirectionsService();
@@ -20,26 +20,6 @@ script.
       zoom: 2,
       center: {lat: 42.8864, lng: -78.8784}
     });
-    
-    var waypts = #{waypoints};
-    var lat;
-    var lng;
-    for (var i = 0; i < waypts.length; i++) {
-      lat = data[i][0];
-      lng = data[i][0];
-      url = 'https://data.buffalony.gov/resource/v5df-q4ru.json?$where=within_circle(geocoded_column,%20' + lat + ',%20' + lng + ',%20100)&$$app_token=13cO7uQiDFF9lUsuhHK7Lv5C0'
-      $.getJSON(url, function(data, textstatus) {
-        console.log(data);
-        $.each(data, function(i, entry) {
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(entry.location_1.latitude, 
-                                             entry.location_1.longitude),
-            map: map,
-            title: location.name
-          });
-        });
-      });
-    }
 
     directionsDisplay.setMap(map);
     calculateAndDisplayRoute(directionsService, directionsDisplay);
@@ -54,6 +34,42 @@ script.
         } else {
           window.alert('Directions request failed due to ' + status);
         }
+      });
+    }
+
+    var waypts = #{waypoints};
+    var lat;
+    var lng;
+    var markers = [];
+    for (var i = 0; i < waypts.length; i++) {
+      lat = waypts[i][0];
+      lng = waypts[i][1];
+      url = 'https://data.buffalony.gov/resource/v5df-q4ru.json?$where=within_circle(geocoded_column,%20' + lat + ',%20' + lng + ',%200500)&$$app_token=13cO7uQiDFF9lUsuhHK7Lv5C0&$limit=1'
+      $.getJSON(url, function(data, textstatus) {
+        console.log(data);
+        $.each(data, function(j, entry) {
+          if (entry.length != 0) {
+            var latlng = new google.maps.LatLng(entry.latitude, entry.longitude);
+            markers[i] = new google.maps.Marker({
+              animation: google.maps.Animation.DROP,
+              position: latlng,
+              map: map,
+              title: entry.title,
+              visible: true,
+              id: i
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+              content: entry.plaque_inscription
+            });
+
+            infowindow.open(map, markers[i]);
+              google.maps.event.addListener(markers[i], 'click', function () {
+              alert(markers[this.id].description)
+            })
+            markers[i].setMap(map);
+          }
+        });
       });
     }
   }
