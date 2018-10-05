@@ -54,13 +54,13 @@ script.
               animation: google.maps.Animation.DROP,
               position: latlng,
               map: map,
-              title: entry.title,
+              title: entry.plaque_inscription,
               visible: true,
               id: i
             });
 
             var infowindow = new google.maps.InfoWindow({
-              content: entry.plaque_inscription
+              content: entry.title
             });
 
             infowindow.open(map, markers[i]);

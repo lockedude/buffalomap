@@ -33,6 +33,12 @@ router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(awsServerlessExpressMiddleware.eventContext())
 
+
+AWS.config.update({
+    region: "us-west-2",
+});
+
+
 // NOTE: tests can't find the views directory without this
 app.set('views', path.join(__dirname, 'views'))
 // For the favicon
@@ -47,13 +53,36 @@ router.get('/', (req, res) => {
 
 
 router.post('/getmap', (req,res) => {
-  var waypoints = {};
+  
+  //DynamoDB variables
+  var docClient = new AWS.DynamoDB.DocumentClient();
+  var table = "waypoints";
+  var start = req.body.start;
+  var end = req.body.destination;
+
+//  res.json(docClient.get(params).promise());
+
   googleMapsClient.directions({origin: req.body.start, destination: req.body.destination})
   .asPromise()
   .then((response) => {
     var url = "https://www.google.com/maps/api/js?key=AIzaSyA_nj1hOVWtQgcHrI0FLMMTwasZ6JvFJXk&callback=initMap";
     var data = response.json.routes[0].overview_polyline.points;
     var decode = polyline.decode(data);
+    var params = {
+      TableName : table,
+      Item: {
+        "start": start,
+        "end": end,
+        "directions": data
+      }
+    };
+    docClient.put(params, function(err, data) {
+      if (err) {
+        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+      } else {
+        console.log("Added item:", JSON.stringify(data, null, 2));
+      }
+    });
     res.render('map', {
       mapurl: url,  start: req.body.start, end: req.body.destination, waypoints: JSON.stringify(decode)
     })
